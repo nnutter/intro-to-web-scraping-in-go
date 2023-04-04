@@ -14,13 +14,13 @@ func Test(t *testing.T) {
 		Scheme: "http",
 		Host:   "127.0.0.1:8080",
 	}
-	startDemoServer(t, &u)
+	demo.StartServer(t, &u)
 
 	boxScoreURL := u
 	boxScoreURL.Path = "/box_score.html"
 	resp, err := http.Get(boxScoreURL.String())
 	if err != nil {
-		t.Fatalf("failed to get box score")
+		t.Fatalf("failed to get box score page")
 	}
 	t.Cleanup(func() {
 		_ = resp.Body.Close()
@@ -32,14 +32,4 @@ func Test(t *testing.T) {
 	}
 
 	t.Log(string(bs))
-}
-
-func startDemoServer(t *testing.T, u *url.URL) {
-	server, err := demo.ListenAndServe(u.Host)
-	if err != nil {
-		t.Fatalf("failed to start demo server")
-	}
-	t.Cleanup(func() {
-		_ = server.Close()
-	})
 }

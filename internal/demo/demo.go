@@ -4,6 +4,8 @@ import (
 	"embed"
 	"io"
 	"net/http"
+	"net/url"
+	"testing"
 	"time"
 )
 
@@ -49,4 +51,14 @@ func ListenAndServe(addr string) (*http.Server, error) {
 		}
 	}()
 	return &s, nil
+}
+
+func StartServer(t *testing.T, u *url.URL) {
+	server, err := ListenAndServe(u.Host)
+	if err != nil {
+		t.Fatalf("failed to start demo server")
+	}
+	t.Cleanup(func() {
+		_ = server.Close()
+	})
 }
