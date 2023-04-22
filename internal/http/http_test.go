@@ -6,6 +6,8 @@ import (
 	"net/url"
 	"testing"
 
+	"github.com/stretchr/testify/require"
+
 	"github.com/nnutter/intro-to-web-scraping-in-go/internal/demo"
 )
 
@@ -19,17 +21,13 @@ func Test(t *testing.T) {
 	boxScoreURL := u
 	boxScoreURL.Path = "/box_score.html"
 	resp, err := http.Get(boxScoreURL.String())
-	if err != nil {
-		t.Fatalf("failed to get box score page")
-	}
+	require.NoError(t, err)
 	t.Cleanup(func() {
 		_ = resp.Body.Close()
 	})
 
-	bs, err := io.ReadAll(resp.Body)
-	if err != nil {
-		t.Fatalf("failed to read box score")
-	}
+	body, err := io.ReadAll(resp.Body)
+	require.NoError(t, err)
 
-	t.Log(string(bs))
+	t.Log(string(body))
 }
