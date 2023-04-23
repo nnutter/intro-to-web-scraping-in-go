@@ -23,24 +23,27 @@ func Test(t *testing.T) {
 
 	boxScoreURL := u
 	boxScoreURL.Path = "/box_score.html"
-	resp, err := http.Get(boxScoreURL.String())
-	require.NoError(t, err)
-	t.Cleanup(func() {
-		_ = resp.Body.Close()
+
+	t.Run("WebScrapingStack", func(t *testing.T) {
+		resp, err := http.Get(boxScoreURL.String())
+		require.NoError(t, err)
+		t.Cleanup(func() {
+			_ = resp.Body.Close()
+		})
+
+		doc, err := goquery.NewDocumentFromReader(resp.Body)
+		require.NoError(t, err)
+
+		tables := doc.Find("table")
+		tables.Each(func(i int, selection *goquery.Selection) {
+			logElement(t, selection.Nodes[0])
+		})
+
+		sel := "#contentarea > table.mytable"
+		table := doc.Find(sel).First()
+		t.Log(sel)
+		logElement(t, table.Nodes[0])
 	})
-
-	doc, err := goquery.NewDocumentFromReader(resp.Body)
-	require.NoError(t, err)
-
-	tables := doc.Find("table")
-	tables.Each(func(i int, selection *goquery.Selection) {
-		logElement(t, selection.Nodes[0])
-	})
-
-	sel := "#contentarea > table.mytable"
-	table := doc.Find(sel).First()
-	t.Log(sel)
-	logElement(t, table.Nodes[0])
 }
 
 func logElement(t *testing.T, n *html.Node) {

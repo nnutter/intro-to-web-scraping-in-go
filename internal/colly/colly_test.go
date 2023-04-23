@@ -22,20 +22,22 @@ func Test(t *testing.T) {
 	boxScoreURL := u
 	boxScoreURL.Path = "/box_score.html"
 
-	c := colly.NewCollector()
+	t.Run("WebScrapingStack", func(t *testing.T) {
+		c := colly.NewCollector()
 
-	c.OnHTML("table", func(table *colly.HTMLElement) {
-		logElement(t, table.DOM.Nodes[0])
+		c.OnHTML("table", func(table *colly.HTMLElement) {
+			logElement(t, table.DOM.Nodes[0])
+		})
+
+		sel := "#contentarea > table.mytable"
+		c.OnHTML(sel, func(table *colly.HTMLElement) {
+			t.Log(sel)
+			logElement(t, table.DOM.Nodes[0])
+		})
+
+		err := c.Visit(boxScoreURL.String())
+		require.NoError(t, err)
 	})
-
-	sel := "#contentarea > table.mytable"
-	c.OnHTML(sel, func(table *colly.HTMLElement) {
-		t.Log(sel)
-		logElement(t, table.DOM.Nodes[0])
-	})
-
-	err := c.Visit(boxScoreURL.String())
-	require.NoError(t, err)
 }
 
 func logElement(t *testing.T, n *html.Node) {

@@ -21,19 +21,22 @@ func Test(t *testing.T) {
 
 	boxScoreURL := u
 	boxScoreURL.Path = "/box_score.html"
-	resp, err := http.Get(boxScoreURL.String())
-	require.NoError(t, err)
-	t.Cleanup(func() {
-		_ = resp.Body.Close()
+
+	t.Run("WebScrapingStack", func(t *testing.T) {
+		resp, err := http.Get(boxScoreURL.String())
+		require.NoError(t, err)
+		t.Cleanup(func() {
+			_ = resp.Body.Close()
+		})
+
+		dom, err := html.Parse(resp.Body)
+		require.NoError(t, err)
+
+		tables := findNodes(dom, "table")
+		for _, table := range tables {
+			logNode(t, table)
+		}
 	})
-
-	dom, err := html.Parse(resp.Body)
-	require.NoError(t, err)
-
-	tables := findNodes(dom, "table")
-	for _, table := range tables {
-		logNode(t, table)
-	}
 }
 
 func findNodes(node *html.Node, d string) []*html.Node {

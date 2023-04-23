@@ -20,14 +20,17 @@ func Test(t *testing.T) {
 
 	boxScoreURL := u
 	boxScoreURL.Path = "/box_score.html"
-	resp, err := http.Get(boxScoreURL.String())
-	require.NoError(t, err)
-	t.Cleanup(func() {
-		_ = resp.Body.Close()
+
+	t.Run("WebScrapingStack", func(t *testing.T) {
+		resp, err := http.Get(boxScoreURL.String())
+		require.NoError(t, err)
+		t.Cleanup(func() {
+			_ = resp.Body.Close()
+		})
+
+		body, err := io.ReadAll(resp.Body)
+		require.NoError(t, err)
+
+		t.Log(string(body))
 	})
-
-	body, err := io.ReadAll(resp.Body)
-	require.NoError(t, err)
-
-	t.Log(string(body))
 }

@@ -1,5 +1,7 @@
 # Intro to Web Scraping in Go
 
+This is code to accompany these [slides](https://docs.google.com/presentation/d/18UwU2rgeOcwKLTnw_FweYfxfGs6wZSgeVmCgj2oWDdU/edit?usp=sharing).
+
 Working our way up the tech stack:
 
 1. [http](https://github.com/nnutter/intro-to-web-scraping-in-go/blob/master/internal/http): We have to be able to retrieve the content from the web.

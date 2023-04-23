@@ -23,28 +23,31 @@ func Test(t *testing.T) {
 
 	boxScoreURL := u
 	boxScoreURL.Path = "/box_score.html"
-	resp, err := http.Get(boxScoreURL.String())
-	require.NoError(t, err)
-	t.Cleanup(func() {
-		_ = resp.Body.Close()
-	})
 
-	dom, err := html.Parse(resp.Body)
-	require.NoError(t, err)
+	t.Run("WebScrapingStack", func(t *testing.T) {
+		resp, err := http.Get(boxScoreURL.String())
+		require.NoError(t, err)
+		t.Cleanup(func() {
+			_ = resp.Body.Close()
+		})
 
-	sel, err := cascadia.Parse("table")
-	require.NoError(t, err)
+		dom, err := html.Parse(resp.Body)
+		require.NoError(t, err)
 
-	tables := cascadia.QueryAll(dom, sel)
-	for _, table := range tables {
+		sel, err := cascadia.Parse("table")
+		require.NoError(t, err)
+
+		tables := cascadia.QueryAll(dom, sel)
+		for _, table := range tables {
+			logElement(t, table)
+		}
+
+		sel, err = cascadia.Parse("#contentarea > table.mytable")
+		require.NoError(t, err)
+		table := cascadia.Query(dom, sel)
+		t.Log(sel.String())
 		logElement(t, table)
-	}
-
-	sel, err = cascadia.Parse("#contentarea > table.mytable")
-	require.NoError(t, err)
-	table := cascadia.Query(dom, sel)
-	t.Log(sel.String())
-	logElement(t, table)
+	})
 }
 
 func logElement(t *testing.T, n *html.Node) {
