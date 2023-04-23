@@ -27,10 +27,10 @@ func Test(t *testing.T) {
 		_ = resp.Body.Close()
 	})
 
-	doc, err := html.Parse(resp.Body)
+	dom, err := html.Parse(resp.Body)
 	require.NoError(t, err)
 
-	tables := findNodes(doc, "table")
+	tables := findNodes(dom, "table")
 	for _, table := range tables {
 		logNode(t, table)
 	}

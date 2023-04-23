@@ -28,13 +28,7 @@ func Test(t *testing.T) {
 		logElement(t, table.DOM.Nodes[0])
 	})
 
-	sel := "#contentarea > table:nth-child(5)"
-	c.OnHTML(sel, func(table *colly.HTMLElement) {
-		t.Log(sel)
-		logElement(t, table.DOM.Nodes[0])
-	})
-
-	sel = "#contentarea > table.mytable"
+	sel := "#contentarea > table.mytable"
 	c.OnHTML(sel, func(table *colly.HTMLElement) {
 		t.Log(sel)
 		logElement(t, table.DOM.Nodes[0])

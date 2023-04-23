@@ -37,13 +37,8 @@ func Test(t *testing.T) {
 		logElement(t, selection.Nodes[0])
 	})
 
-	sel := "#contentarea > table:nth-child(5)"
+	sel := "#contentarea > table.mytable"
 	table := doc.Find(sel).First()
-	t.Log(sel)
-	logElement(t, table.Nodes[0])
-
-	sel = "#contentarea > table.mytable"
-	table = doc.Find(sel).First()
 	t.Log(sel)
 	logElement(t, table.Nodes[0])
 }

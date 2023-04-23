@@ -29,26 +29,20 @@ func Test(t *testing.T) {
 		_ = resp.Body.Close()
 	})
 
-	doc, err := html.Parse(resp.Body)
+	dom, err := html.Parse(resp.Body)
 	require.NoError(t, err)
 
 	sel, err := cascadia.Parse("table")
 	require.NoError(t, err)
 
-	tables := cascadia.QueryAll(doc, sel)
+	tables := cascadia.QueryAll(dom, sel)
 	for _, table := range tables {
 		logElement(t, table)
 	}
 
-	sel, err = cascadia.Parse("#contentarea > table:nth-child(5)")
-	require.NoError(t, err)
-	table := cascadia.Query(doc, sel)
-	t.Log(sel.String())
-	logElement(t, table)
-
 	sel, err = cascadia.Parse("#contentarea > table.mytable")
 	require.NoError(t, err)
-	table = cascadia.Query(doc, sel)
+	table := cascadia.Query(dom, sel)
 	t.Log(sel.String())
 	logElement(t, table)
 }

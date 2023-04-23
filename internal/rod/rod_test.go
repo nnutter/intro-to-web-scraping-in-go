@@ -30,13 +30,8 @@ func Test(t *testing.T) {
 		t.Log(table.String())
 	}
 
-	sel := "#contentarea > table:nth-child(5)"
+	sel := "#contentarea > table.mytable"
 	table := page.MustElement(sel)
-	t.Log(sel)
-	t.Log(table.String())
-
-	sel = "#contentarea > table.mytable"
-	table = page.MustElement(sel)
 	t.Log(sel)
 	t.Log(table.String())
 }
