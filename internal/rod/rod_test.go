@@ -183,7 +183,7 @@ func Test(t *testing.T) {
 
 					t.Log("loading page")
 					page.Context(ctx).MustNavigate(boxScoreURL.String()).MustWaitLoad()
-					time.Sleep(1 * time.Second)
+					time.Sleep(2 * time.Second)
 
 					return nil
 				})
@@ -212,6 +212,8 @@ func extractScoreboard(t *rod.Element) (table.Writer, error) {
 	tw.AppendHeader(tdToRow(headerRow))
 	tw.AppendRow(tdToRow(visitorRow))
 	tw.AppendRow(tdToRow(homeRow))
+
+	// Structs, tags, reflection.
 
 	return tw, nil
 }

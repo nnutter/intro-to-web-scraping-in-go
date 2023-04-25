@@ -42,6 +42,8 @@ func Test(t *testing.T) {
 			logElement(t, table)
 		}
 
+		// Switch to CSS Selectors slides.
+
 		sel, err = cascadia.Parse("#contentarea > table.mytable")
 		require.NoError(t, err)
 		table := cascadia.Query(dom, sel)
