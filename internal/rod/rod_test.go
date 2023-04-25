@@ -196,7 +196,7 @@ func Test(t *testing.T) {
 func extractScoreboard(t *rod.Element) (table.Writer, error) {
 	trs := t.MustElements("tr")
 	headerRow := trs[0]
-	visitiorRow := trs[1]
+	visitorRow := trs[1]
 	homeRow := trs[2]
 
 	tw := table.NewWriter()
@@ -210,7 +210,7 @@ func extractScoreboard(t *rod.Element) (table.Writer, error) {
 	}
 
 	tw.AppendHeader(tdToRow(headerRow))
-	tw.AppendRow(tdToRow(visitiorRow))
+	tw.AppendRow(tdToRow(visitorRow))
 	tw.AppendRow(tdToRow(homeRow))
 
 	return tw, nil
