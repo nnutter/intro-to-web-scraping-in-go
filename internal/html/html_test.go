@@ -32,21 +32,21 @@ func Test(t *testing.T) {
 		dom, err := html.Parse(resp.Body)
 		require.NoError(t, err)
 
-		tables := findNodes(dom, "table")
+		tables := findElementNodes(dom, "table")
 		for _, table := range tables {
 			logNode(t, table)
 		}
 	})
 }
 
-func findNodes(node *html.Node, d string) []*html.Node {
+func findElementNodes(node *html.Node, tagName string) []*html.Node {
 	if node == nil {
 		return nil
 	}
-	children := findNodes(node.FirstChild, d)
-	siblings := findNodes(node.NextSibling, d)
+	children := findElementNodes(node.FirstChild, tagName)
+	siblings := findElementNodes(node.NextSibling, tagName)
 	var nodes []*html.Node
-	if node.Data == d {
+	if node.Type == html.ElementNode && node.Data == tagName {
 		nodes = append(nodes, node)
 	}
 	if len(children) > 0 {
