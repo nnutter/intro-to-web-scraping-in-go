@@ -202,7 +202,7 @@ func extractScoreboard(t *rod.Element) (table.Writer, error) {
 	tw := table.NewWriter()
 
 	tdToRow := func(tr *rod.Element) table.Row {
-		var row []interface{}
+		var row []any
 		for _, td := range tr.MustElements("td") {
 			row = append(row, td.MustText())
 		}
